@@ -21,6 +21,7 @@ RUN apt-get -y update
 RUN apt-get -y install openssl php7.1 libapache2-mod-php7.1 php7.1-mysql php7.1-pgsql php7.1-curl php7.1-zip php7.1-gd php7.1-cli php7.1-mcrypt php7.1-opcache php7.1-json php7.1-bz2 php7.1-mbstring php7.1-cli php7.1-dev php7.1-xml php-pear libpq-dev libevent-dev make git build-essential libnghttp2-dev vim bash-completion unzip
 RUN apt-get -y install expect tcl
 COPY pecl_event.sh /root/
+RUN chmod 755 /root/pecl_event.sh
 RUN expect /root/pecl_event.sh
 RUN echo extension=event.so >> /etc/php/7.1/cli/conf.d/30-event.ini
 RUN cd / \
