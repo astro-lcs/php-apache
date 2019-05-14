@@ -1,43 +1,43 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
-# Setup environment
-ENV DEBIAN_FRONTEND noninteractive
+RUN mkdir -p /var/www/log && chown www-data:www-data /var/www/log
+RUN chown  -R www-data:www-data /var/www
 
-# Update sources
-RUN apt-get update -y
-
+#Tom script
+RUN apt-get update && apt-get upgrade
 RUN apt-get -y dist-upgrade
-
+RUN apt-get -y install cron
+RUN apt-get -y install apache2 apache2-bin
+RUN apache2ctl start
 RUN apt-get -y install python-software-properties
-RUN apt-get -y install software-properties-common 
-RUN add-apt-repository ppa:ondrej/php
-RUN apt-get update
-
-
-# install http  + php
-RUN apt-get -y install --force-yes apache2 openssl vim bash-completion unzip
-
-RUN apt-get -y install --force-yes php7.0 libapache2-mod-php7.0 php7.0-mysql php7.0-pgsql php7.0-curl php7.0-zip php7.0-gd php7.0-cli php7.0-mcrypt php7.0-opcache php7.0-json php7.0-bz2 php7.0-mbstring 
-
-#RUN apt-get install -y apache2 vim bash-completion unzip
-RUN mkdir -p /var/lock/apache2 /var/run/apache2
-
+RUN apt-get -y install software-properties-common
+RUN apt-get -y install locales
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+RUN add-apt-repository ppa:ondrej/php -y
+RUN apt-get -y update
+RUN apt-get -y install openssl php7.1 libapache2-mod-php7.1 php7.1-mysql php7.1-pgsql php7.1-curl php7.1-zip php7.1-gd php7.1-cli php7.1-mcrypt php7.1-opcache php7.1-json php7.1-bz2 php7.1-mbstring php7.1-cli php7.1-dev php7.1-xml php-pear libpq-dev libevent-dev make git build-essential libnghttp2-dev vim bash-completion unzip
+RUN apt-get -y install expect tcl
+COPY pecl_event.sh /root/
+RUN expect /root/pecl_event.sh
+RUN echo extension=event.so >> /etc/php/7.1/cli/conf.d/30-event.ini
+RUN cd / \
+&& git clone https://github.com/swoole/swoole-src.git \
+&& cd swoole-src/ \
+&& /usr/bin/phpize \
+&& ./configure --enable-sockets --enable-openssl --enable-http2 --enable-mysqlnd --enable-coroutine-postgresql \
+&& make \
+&& make install \
+&& echo "extension=swoole.so" >> /etc/php/7.1/cli/php.ini \
+RUN rm -Rf /swoole-src
 
 RUN a2enmod ssl
 RUN a2enmod rewrite
 RUN a2enmod deflate
 RUN a2enmod expires
-RUN a2enmod php7.0
-
-# install supervisord
-
-RUN apt-get install -y supervisor
-RUN mkdir -p /var/log/supervisor
-
-
-# install sshd
-RUN apt-get install -y openssh-server openssh-client passwd
-RUN mkdir -p /var/run/sshd
+RUN service apache2 restart
 
 #Time
 ENV TW=Asia/Taipei
