@@ -31,7 +31,7 @@ RUN cd / \
 && ./configure --enable-sockets --enable-openssl --enable-http2 --enable-mysqlnd --enable-coroutine-postgresql \
 && make \
 && make install \
-&& echo "extension=swoole.so" >> /etc/php/7.1/cli/php.ini \
+&& echo "extension=swoole.so" >> /etc/php/7.1/cli/php.ini
 RUN rm -Rf /swoole-src
 
 RUN a2enmod ssl
