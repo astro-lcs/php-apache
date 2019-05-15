@@ -23,7 +23,6 @@ RUN apt-get -y install expect tcl
 COPY pecl_event.sh /root/
 RUN chmod 755 /root/pecl_event.sh
 RUN expect /root/pecl_event.sh
-RUN echo extension=event.so >> /etc/php/7.1/cli/conf.d/30-event.ini
 RUN cd / \
 && git clone https://github.com/swoole/swoole-src.git \
 && cd swoole-src/ \
