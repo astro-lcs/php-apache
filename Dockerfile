@@ -33,6 +33,9 @@ RUN cd / \
 && echo "extension=swoole.so" >> /etc/php/7.1/cli/php.ini
 RUN rm -Rf /swoole-src
 
+COPY event.so  /usr/lib/php/20160303/
+RUN echo "extension=event.so" >> /etc/php/7.1/cli/php.ini
+
 RUN a2enmod ssl
 RUN a2enmod rewrite
 RUN a2enmod deflate
