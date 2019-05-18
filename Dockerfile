@@ -9,7 +9,10 @@ RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y dist-upgrade
 
 RUN apt-get -y install python-software-properties
-RUN apt-get -y install software-properties-common 
+RUN apt-get -y install software-properties-common
+RUN gpg --keyserver pgpkeys.mit.edu --recv-key  1C1E55A728CBC482     
+RUN gpg -a --export 1C1E55A728CBC482 | sudo apt-key add -
+
 RUN add-apt-repository ppa:ondrej/php
 RUN apt-get  -y update
 
