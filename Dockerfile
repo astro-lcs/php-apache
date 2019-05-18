@@ -4,15 +4,13 @@ FROM ubuntu:14.04
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update sources
-RUN apt-get update -y
-
+RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y dist-upgrade
 
 RUN apt-get -y install python-software-properties
 RUN apt-get -y install software-properties-common 
 RUN add-apt-repository ppa:ondrej/php
-RUN apt-get update
-
+RUN apt-get -y update
 
 # install http  + php
 RUN apt-get -y install --force-yes apache2 openssl vim bash-completion unzip
