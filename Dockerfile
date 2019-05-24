@@ -6,7 +6,7 @@ RUN chown  -R www-data:www-data /var/www
 #Tom script
 RUN apt-get -y update && apt-get -y upgrade
 RUN apt-get -y dist-upgrade
-RUN apt-get -y install cron
+RUN apt-get -y install cron sudo
 RUN apt-get -y install apache2 apache2-bin
 RUN apache2ctl start
 RUN apt-get -y install python-software-properties
