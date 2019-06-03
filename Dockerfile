@@ -24,7 +24,7 @@ COPY pecl_event.sh /root/
 RUN chmod 755 /root/pecl_event.sh
 RUN expect /root/pecl_event.sh
 RUN cd / \
-&& git clone https://github.com/swoole/swoole-src.git \
+&& git clone --branch v4.3.4 https://github.com/swoole/swoole-src.git \
 && cd swoole-src/ \
 && /usr/bin/phpize \
 && ./configure --enable-sockets --enable-openssl --enable-http2 --enable-mysqlnd --enable-coroutine-postgresql \
