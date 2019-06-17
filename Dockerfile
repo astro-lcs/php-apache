@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # Setup environment
 ENV DEBIAN_FRONTEND noninteractive
@@ -9,9 +9,12 @@ RUN apt-get -y dist-upgrade
 
 RUN apt-get -y install python-software-properties
 RUN apt-get -y install software-properties-common
-#RUN add-apt-repository ppa:ondrej/php
-RUN add-apt-repository ppa:webupd8team/y-ppa-manager
-RUN apt-get -y install y-ppa-manager
+RUN apt-get -y install locales
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+RUN add-apt-repository ppa:ondrej/php -y
 RUN apt-get -y update
 
 # install http  + php
@@ -33,11 +36,6 @@ RUN a2enmod php7.0
 
 RUN apt-get install -y supervisor
 RUN mkdir -p /var/log/supervisor
-
-
-# install sshd
-RUN apt-get install -y openssh-server openssh-client passwd
-RUN mkdir -p /var/run/sshd
 
 #Time
 ENV TW=Asia/Taipei
