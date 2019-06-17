@@ -1,20 +1,24 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # Setup environment
 ENV DEBIAN_FRONTEND noninteractive
 
 # Update sources
 RUN apt-get -y update && apt-get -y upgrade
-
 RUN apt-get -y dist-upgrade
 
 RUN apt-get -y install python-software-properties
 RUN apt-get -y install software-properties-common
+RUN apt-get -y install locales
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+RUN add-apt-repository ppa:ondrej/php -y
+RUN apt-get -y update
 
-#RUN add-apt-repository ppa:ondrej/php
-RUN add-apt-repository ppa:webupd8team/y-ppa-manager
-RUN apt-get -y install y-ppa-manager
-RUN apt-get  -y update
+# install http  + php
+RUN apt-get -y install --force-yes apache2 openssl vim bash-completion unzip
 
 # install http  + php
 RUN apt-get -y install --force-yes apache2 openssl php5.6 libapache2-mod-php5.6 php5.6-mysql php5.6-pgsql php5.6-curl php5.6-zip php5.6-gd php5.6-cli php5.6-mcrypt php5.6-opcache php5.6-json php5.6-bz2 php5.6-mbstring vim bash-completion unzip
